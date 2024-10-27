@@ -1,5 +1,0 @@
-aws_access_key_id = 'AKIARHQBNEXSVN5FGKHX'
-aws_secret_access_key = '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'
-region_name = 'ap-southeast-2'
-bucket_name = 'cc-assignment-2-sp3-24'
-s3_location = 'https://cc-assignment-2-sp3-24.s3.ap-southeast-2.amazonaws.com/'
