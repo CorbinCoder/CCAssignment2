@@ -1,0 +1,70 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>Songscribe</title>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='style.css') }}">
+    </head>
+    <header>
+        <ul>
+            <li>
+                <a href="{{ url_for('logout') }}" id="logout-button">Logout</a>
+            </li>
+        </ul>
+    </header>
+    <body>
+        <div id="user-area">
+            <p>{{ user_name }}</p>
+        </div>
+        <div id="query-area">
+            {% if message %}
+                <p>{{ message }}</p>
+            {% endif %}
+            <form action="{{ url_for('query') }}" id="query" method="POST">
+                <label for="query-title">Title</label>
+                <input type="text" id="query-title" name="query-title"/>
+                <label for="query-artist">Artist</label>
+                <input type="text" id="query-artist" name="query-artist"/>
+                <label for="query-year">Year</label>
+                <input type="text" id="query-year" name="query-year"/>
+                <button type="submit" id="query-button">Query.</button>
+            </form>
+            <div id="results-area">
+                {% if results %}
+                    <label for="result-area">Results.</label>
+                        {% for result in results %}
+                            <div id="result-area">
+                                <form action="{{ url_for('subscribe') }}" id="result-form" method="POST">
+                                    <h3 id="title" name='title'>{{ result['title'] }}</h3>
+                                    <p id="result-artist">{{ result['artist'] }}</p>
+                                    <p id="result-year">{{ result['year'] }}</p>
+                                    <image src="{{ result['image_url'] }}" height="100" width="100" />
+                                    <input id="result-title" name="result-title" value="{{ result['title'] }}" hidden="True"/>
+                                    <button type="submit" id="subscribe-button">Subscribe</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                {% endif %}
+            </div>
+            <div id="subscription-area">
+                {% if subscribed %}
+                    <label for="subscribe-area">Subscribed.</label>
+                        {% for subscribe in subscribed %}
+                            <div id="subscribe-area">
+                                <form action="{{ url_for('remove') }}" id="subscribed-form" method="POST">
+                                        <h3 id="title">{{ subscribe['title'] }}</h3>
+                                        <p id="subscribe-artist">{{ subscribe['artist'] }}</p>
+                                        <p id="subscribe-year">{{ subscribe['year'] }}</p>
+                                        <image src="{{ subscribe['image_url'] }}" height="100" width="100" />
+                                        <input id="subscribe-title" name='subscribe-title' value="{{ subscribe['title'] }}" hidden="True"/>
+                                        <button id="remove-button">Remove</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                {% else %}
+                    <p>No subscribed artists.</p>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
