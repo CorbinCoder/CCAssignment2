@@ -38,7 +38,7 @@
                                     <h3 id="title" name='title'>{{ result['title'] }}</h3>
                                     <p id="result-artist">{{ result['artist'] }}</p>
                                     <p id="result-year">{{ result['year'] }}</p>
-                                    <image src="https://cc-assignment-2-sp3-24.s3.amazonaws.com/{{ result['title'] }}.jpg" height="100" width="100" />
+                                    <image src="https://cc-assignment-2-sp3-24.s3.ap-southeast-2.amazonaws.com/music/{{ result['title'] }}.jpg" height="100" width="100" />
                                     <input id="result-title" name="result-title" value="{{ result['title'] }}" hidden="True"/>
                                     <button type="submit" id="subscribe-button">Subscribe</button>
                                 </form>
@@ -55,7 +55,7 @@
                                         <h3 id="title">{{ subscribe['title'] }}</h3>
                                         <p id="subscribe-artist">{{ subscribe['artist'] }}</p>
                                         <p id="subscribe-year">{{ subscribe['year'] }}</p>
-                                        <image src="https://cc-assignment-2-sp3-24.s3.amazonaws.com/{{ subscribe['title'] }}.jpg" height="100" width="100" />
+                                        <image src="https://cc-assignment-2-sp3-24.s3.ap-southeast-2.amazonaws.com/music/{{ subscribe['title'] }}.jpg" height="100" width="100" />
                                         <input id="subscribe-title" name='subscribe-title' value="{{ subscribe['title'] }}" hidden="True"/>
                                         <button id="remove-button">Remove</button>
                                 </form>
