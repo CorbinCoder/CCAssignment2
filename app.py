@@ -17,20 +17,21 @@ def init():
 def import_music():
     with open('a2.json') as json_file:
         data = json.load(json_file)
-        # for i in data['songs']:
-        #     key = {'title': i['title']}
-        #     if not db_client.get_item('music', key):
-        #         print(i)
-        #         item = { 'title': i['title'], 
-        #                 'artist': i['artist'], 
-        #                 'year': i['year'], 
-        #             'web_url': i['web_url'], 
-        #             'image_url': i['img_url'] }
-        #         db_client.put_item('music', item)
-        #         # s3_client.upload_file_obj_from_web(i['img_url'], config.bucket_name, 'music', i['title'])
-        #         print("Item added successfully")
-        #     else:
-        #         print("Item already exists")
+        for i in data['songs']:
+            key = {'title': i['title']}
+            file_name = i['title'] + '.jpg'
+            if not db_client.get_item('music', key):
+                print(i)
+                item = { 'title': i['title'], 
+                        'artist': i['artist'], 
+                        'year': i['year'], 
+                    'web_url': i['web_url'], 
+                    'image_url': i['img_url'] }
+                s3_client.upload_file_obj_from_web(i['img_url'], 'music', file_name)
+                db_client.put_item('music', item)
+                print("Item added successfully")
+            else:
+                print("Item already exists")
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():

@@ -10,7 +10,7 @@ class S3Client:
     global s3
     session = boto3.Session(aws_access_key_id=config.aws_access_key_id,
                             aws_secret_access_key=config.aws_secret_access_key)
-    s3 = boto3.client('s3')
+    s3 = boto3.resource('s3')
 
     def create_bucket(bucket_name, region=None):
         try:
@@ -65,21 +65,23 @@ class S3Client:
             return False
         return True
     
-    def upload_file_obj_from_web(self, file_name, bucket_name, folder=None, object_name=None):
+    def upload_file_obj_from_web(self, web_url, folder=None, object_name=None):
         
-        if not object_name:
-            object_name = file_name
+        if object_name is None:
+            object_name = web_url.split('/')[-1]
         if folder:
             object_name = folder + '/' + object_name
 
-        request = requests.get(file_name, stream=True)
-
-        try:
-            s3.upload_fileobj(request.raw, config.bucket_name, object_name)
-        except ClientError as e:
-            logging.error(e)
-            return False
-        return True
+        for bucket in s3.buckets.all():
+            if bucket.name == config.bucket_name:
+                request = requests.get(web_url, stream=True)
+                req_data = request.raw.read()
+                try:
+                    s3.Bucket(config.bucket_name).put_object(Key=object_name, Body=req_data)
+                    print('File uploaded successfully')
+                except ClientError as e:
+                    logging.error(e)
+                    return False
 
     def download_file(file_name, bucket, object_name=None):
         if object_name is None:
