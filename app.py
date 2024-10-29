@@ -30,8 +30,6 @@ def import_music():
                 s3_client.upload_file_obj_from_web(i['img_url'], 'music', file_name)
                 db_client.put_item('music', item)
                 print("Item added successfully")
-            else:
-                print("Item already exists")
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
